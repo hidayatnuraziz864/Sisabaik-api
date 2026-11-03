@@ -1,0 +1,258 @@
+
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#176b4d">
+  <meta name="description" content="SisaBaik membantu menghubungkan pembeli dengan usaha makanan di sekitarnya.">
+  <title>Akun dan Pendaftaran — SisaBaik</title>
+  <link rel="stylesheet" href="/auth.css">
+  <script src="/auth.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>SisaBaik</h1>
+    <p>Makanan baik, harga lebih hemat, manfaat untuk sekitar.</p>
+  </header>
+
+  <main>
+    <p id="pesan" role="status" aria-live="polite"></p>
+
+    <section aria-labelledby="judul-akun">
+      <h2 id="judul-akun">Akun SisaBaik</h2>
+      <p id="identitas">Belum login. Silakan login atau buat akun baru.</p>
+
+      <button id="logout" type="button" hidden>
+        Logout semua sesi
+      </button>
+
+      <form id="login">
+        <h3>Masuk ke akun</h3>
+
+        <label for="email-login">Email</label>
+        <input
+          id="email-login"
+          name="email"
+          type="email"
+          autocomplete="username"
+          maxlength="254"
+          required
+        >
+
+        <label for="sandi-login">Kata sandi</label>
+        <input
+          id="sandi-login"
+          name="kataSandi"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button type="submit">Login</button>
+      </form>
+
+      <hr>
+
+      <form id="registrasi">
+        <h3>Buat akun baru</h3>
+        <p>Daftar sebagai pembeli atau penyedia makanan.</p>
+
+        <label for="jenis-akun">Jenis akun</label>
+        <select id="jenis-akun" name="jenisAkun" required>
+          <option value="pembeli">Pembeli makanan</option>
+          <option value="penyedia">Penyedia makanan</option>
+        </select>
+
+        <label for="nama-daftar">Nama lengkap</label>
+        <input
+          id="nama-daftar"
+          name="namaLengkap"
+          type="text"
+          minlength="2"
+          maxlength="100"
+          autocomplete="name"
+          required
+        >
+
+        <label for="email-daftar">Email</label>
+        <input
+          id="email-daftar"
+          name="email"
+          type="email"
+          autocomplete="email"
+          maxlength="254"
+          required
+        >
+
+        <label for="sandi-daftar">Kata sandi</label>
+        <input
+          id="sandi-daftar"
+          name="kataSandi"
+          type="password"
+          minlength="15"
+          autocomplete="new-password"
+          aria-describedby="petunjuk-sandi"
+          required
+        >
+
+        <p id="petunjuk-sandi">
+          Gunakan minimal 15 karakter dan maksimal 72 byte UTF-8.
+          Pilih kata sandi yang unik.
+        </p>
+
+        <label for="sandi-ulang">Ulangi kata sandi</label>
+        <input
+          id="sandi-ulang"
+          name="konfirmasiSandi"
+          type="password"
+          autocomplete="new-password"
+          required
+        >
+
+        <fieldset id="profil-daftar" hidden disabled>
+          <legend>Informasi usaha</legend>
+
+          <label for="usaha-daftar">Nama usaha</label>
+          <input
+            id="usaha-daftar"
+            name="namaUsaha"
+            type="text"
+            minlength="2"
+            maxlength="120"
+          >
+
+          <label for="alamat-daftar">Alamat pengambilan</label>
+          <input
+            id="alamat-daftar"
+            name="alamat"
+            type="text"
+            minlength="5"
+            maxlength="1000"
+            autocomplete="street-address"
+          >
+
+          <label for="telepon-daftar">Nomor telepon usaha</label>
+          <input
+            id="telepon-daftar"
+            name="nomorTelepon"
+            type="tel"
+            minlength="8"
+            maxlength="30"
+            autocomplete="tel"
+          >
+
+          <p>
+            Akun penyedia dapat login. Fitur berjualan baru dapat digunakan
+            setelah usaha diverifikasi oleh pengelola.
+          </p>
+        </fieldset>
+
+        <button type="submit">Daftar sekarang</button>
+      </form>
+    </section>
+
+    <section id="area-profil" hidden aria-labelledby="judul-profil">
+      <h2 id="judul-profil">Profil usaha</h2>
+      <p id="profil-usaha"></p>
+      <p id="status-usaha"></p>
+      <button id="periksa-status" type="button">
+        Periksa status verifikasi
+      </button>
+    </section>
+
+    <section aria-labelledby="judul-katalog">
+      <h2 id="judul-katalog">Katalog makanan</h2>
+      <p>Lihat penawaran makanan yang masih tersedia.</p>
+
+      <button id="muat-katalog" type="button">
+        Muat ulang katalog
+      </button>
+
+      <div class="gulir">
+        <table>
+          <caption>Penawaran makanan aktif</caption>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nama</th>
+              <th scope="col">Harga</th>
+              <th scope="col">Stok</th>
+              <th scope="col">Tindakan</th>
+            </tr>
+          </thead>
+          <tbody id="katalog"></tbody>
+        </table>
+      </div>
+
+      <p>
+        Katalog menampilkan maksimal 50 penawaran pada halaman pertama.
+      </p>
+    </section>
+
+    <section id="area-penyedia" hidden aria-labelledby="judul-penyedia">
+      <h2 id="judul-penyedia">Kelola penawaran</h2>
+
+      <form id="penawaran">
+        <label for="nama-produk">Nama penawaran</label>
+        <input
+          id="nama-produk"
+          type="text"
+          minlength="3"
+          maxlength="120"
+          required
+        >
+
+        <label for="kategori">Kategori</label>
+        <input id="kategori" type="text" maxlength="40" required>
+
+        <label for="normal">Harga normal (Rp)</label>
+        <input id="normal" type="number" min="1" step="1" required>
+
+        <label for="hemat">Harga penawaran (Rp)</label>
+        <input id="hemat" type="number" min="0" step="1" required>
+
+        <label for="stok">Stok tersedia</label>
+        <input id="stok" type="number" min="0" step="1" required>
+
+        <label for="satuan">Satuan</label>
+        <input id="satuan" type="text" maxlength="20" required>
+
+        <label for="status">Status penawaran</label>
+        <select id="status" required>
+          <option value="draft">Draft</option>
+          <option value="aktif">Aktif</option>
+        </select>
+
+        <label for="berakhir">Waktu berakhir</label>
+        <input id="berakhir" type="datetime-local" required>
+
+        <button type="submit">Buat penawaran</button>
+      </form>
+
+      <button id="muat-milik" type="button">
+        Lihat penawaran saya
+      </button>
+      <pre id="milik"></pre>
+    </section>
+
+    <section id="area-pesanan" hidden aria-labelledby="judul-pesanan">
+      <h2 id="judul-pesanan">Pesanan saya</h2>
+
+      <button id="muat-pesanan" type="button">
+        Lihat pesanan
+      </button>
+
+      <pre id="pesanan"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      SisaBaik — Menghubungkan pembeli dengan usaha makanan
+      di sekitar kita.
+    </p>
+  </footer>
+</body>
+</html>
